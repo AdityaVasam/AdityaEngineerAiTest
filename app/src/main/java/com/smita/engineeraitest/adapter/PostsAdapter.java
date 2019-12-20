@@ -35,16 +35,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder holder,final int position) {
-        PostsModel model = postsModelList.get(position);
+        final PostsModel model = postsModelList.get(position);
         holder.tv_post_title.setText(model.getTitle());
         holder.tv_post_date.setText(Utilities.getFormattedDate(model.getCreated_at()));
+        holder.post_switch.setChecked(model.isSwitchChecked());
         holder.post_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     selectedPostCount++;
+                    model.setSwitchChecked(true);
                 }else {
                     selectedPostCount--;
+                    model.setSwitchChecked(false);
                 }
                 postsItesmClickListener.onItemClick(position,selectedPostCount);
             }
@@ -52,13 +55,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.post_switch.isChecked()){
+                /*if (holder.post_switch.isChecked()){
                     holder.post_switch.setChecked(true);
                 }else {
                     holder.post_switch.setChecked(false);
-                }
+                }*/
+                holder.post_switch.performClick();
             }
         });
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @Override

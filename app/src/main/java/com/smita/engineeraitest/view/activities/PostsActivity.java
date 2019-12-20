@@ -51,9 +51,9 @@ public class PostsActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
                 lastPageIterated = 0;
                 postsModelList.clear();
-                postsAdapter.notifyDataSetChanged();
                 postsViewModel.getPostsFromApiWithPageNo(lastPageIterated);
                 postSelectedCountTv.setText("0");
             }
@@ -86,6 +86,7 @@ public class PostsActivity extends AppCompatActivity {
         postsViewModel.getPostsLiveData().observe(this, new Observer<List<PostsModel>>() {
             @Override
             public void onChanged(List<PostsModel> postsModels) {
+                swipeRefreshLayout.setRefreshing(false);
                 if (postsModels.get(0).isLastPageReached()){
                     postsProgressBar.setVisibility(View.GONE);
                 }else {

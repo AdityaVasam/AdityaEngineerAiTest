@@ -34,7 +34,7 @@ public class PostsRepository {
 
     public void getPostsFromApi(final int pageNo){
         if (pageNo <= lastPageIndex) {
-            apiInterface.getPostsFromApi("", pageNo).enqueue(new Callback<JsonElement>() {
+            apiInterface.getPostsFromApi("story", pageNo).enqueue(new Callback<JsonElement>() {
                 @Override
                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                     if (response.isSuccessful()){
